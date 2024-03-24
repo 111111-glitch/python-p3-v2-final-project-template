@@ -12,20 +12,31 @@ class Task(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     description = Column(String)
-    status = Column(String) 
+    status = Column(String)
 
 #Configure Database Connection
 engine = create_engine('sqlite:///task.db')
+Base.metadata.create_all(engine)
 
 #Create Session
 Session = sessionmaker(bind=engine)
 session = Session()
 
 # Function to add a new task
-def add_task(title, description):
-    new_task = Task(title=title, description=description)
+def add_task(title, description, status):
+    # Create a new task object with the provided details
+    new_task = Task(title=title, description=description, status=status)
+
     session.add(new_task)
-    session.commit()
+    
+    try:
+        session.commit()
+        print("Task added successfully!")
+    except Exception as e:
+        # Rollback the session and print an error message if an exception occurs
+        session.rollback()
+        print(f"Error adding task: {e}")
+
 
 # Function to delete a task by ID
 def delete_task(task_id):

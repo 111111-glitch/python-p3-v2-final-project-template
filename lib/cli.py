@@ -42,8 +42,9 @@ def show_menu_tasks():
 def create_new_task():
     title = input("Enter task title: ")
     description = input("Enter task description: ")
-    add_task(title, description)
-    print("Task created successfully!")
+    status = input("Enter task status: ") 
+    add_task(title, description, status)
+
 
 def delete_existing_task():
     task_id = input("Enter task ID to delete: ")
